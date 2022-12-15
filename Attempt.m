@@ -1,0 +1,44 @@
+
+load TrackData.mat   %Load ALL Data
+L = TrackData.Length;
+R = TrackData.CornerRadius;
+a =(1:30000);
+N = 1;
+temp(1:10);
+c = 0;
+for j = 1:length(R)
+    while L(j)>=1-c
+        if(j>1)
+              while(i>1)
+                a(N) = a(N) + R(j)* temp(i) ;
+              L(j) = L(j) - 1 + c;
+              N = N + 1;
+              c = 0;
+              i = i-1;
+      end
+        temp = 0;
+      if(j == 1 )
+              a(N) = R(j);
+              L(j) = L(j) -1;
+              N = N + 1;
+              c = 0;
+          end
+          
+    end
+    i= i+1;
+    temp(i) = L(j);
+    
+end
+j = 0;
+for j = 1:N
+    if(a(j) ~= 0)
+        a(j) = 1/a(j);
+    end
+end
+dist = (1:N-1);
+rho_v_filter1 = a(1:N-1);%this graph gives the curvature of 1m segments taking distance 
+
+%weighted averages of the segment when there are several values in the same
+%segment(rare case btw)
+N = length(rho_v_filter1);
+s_v=1:1:N;%%the length shit used by Novotny
